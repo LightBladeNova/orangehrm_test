@@ -1,4 +1,4 @@
-from config.config_data import BASE_URL
+from core.config import config
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,7 +10,7 @@ class LoginPage(BasePage):
         super().__init__(driver)
 
     def navigate_to_login_page(self):
-        self.driver.get(BASE_URL)
+        self.driver.get(config.base_url)
     
     def fill_username(self, username):
         field = WebDriverWait(self.driver, 10).until(

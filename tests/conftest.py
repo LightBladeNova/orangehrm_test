@@ -4,12 +4,12 @@ from pathlib import Path
 import pytest
 from selenium import webdriver
 
-# Ensure project root is on sys.path so `config` and `pages` imports work when running from tests/
+# Ensure project root is on sys.path so imports work when running from tests/
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-import config.config_data as config_data
+from core.config import config
 from pages.login import LoginPage
 
 
@@ -27,7 +27,7 @@ def driver():
 def verify_base_url_accessible(driver):
     """Verify BASE_URL is accessible; skip dependent tests if not"""
     try:
-        driver.get(config_data.BASE_URL)
+        driver.get(config.base_url)
         if "Page not found" in driver.page_source or "error" in driver.page_source.lower():
             pytest.skip("BASE_URL returned an error page - skipping dependent tests")
     except Exception as exc:
@@ -42,7 +42,7 @@ def logged_in_browser(driver, verify_base_url_accessible):
         login_page.navigate_to_login_page()
     except Exception as exc:
         raise Exception(f"Login page failed to load: {exc}") from exc
-    login_page.fill_username(config_data.USERNAME)
-    login_page.fill_password(config_data.PASSWORD)
+    login_page.fill_username(config.username)
+    login_page.fill_password(config.password)
     login_page.click_login()
     return driver

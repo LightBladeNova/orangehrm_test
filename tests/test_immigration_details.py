@@ -1,6 +1,6 @@
 import time
 import pytest
-import config.config_data as config_data
+from core.config import config
 from pages.immigration import Immigration
 
 
@@ -21,16 +21,16 @@ def test_add_immigration_details(logged_in_browser):
 
     immigration_page.click_add_immigration_record_button()
     immigration_page.click_save_button_input_error()
-    immigration_page.fill_number(config_data.IMMIGRATION_NUMBER)
-    immigration_page.fill_issue_date(config_data.IMMIGRATION_ISSUE_DATE)
-    immigration_page.fill_expiry_date(config_data.IMMIGRATION_EXPIRY_DATE)
+    immigration_page.fill_number(config.immigration_number)
+    immigration_page.fill_issue_date(config.immigration_issue_date)
+    immigration_page.fill_expiry_date(config.immigration_expiry_date)
     immigration_page.click_issued_by_dropdown()
     immigration_page.click_afghanistan_option()
     immigration_page.click_save_button_and_verify()
     immigration_page.wait_for_loader_to_disappear()
 
     immigration_record_table = immigration_page.immigration_record_table()
-    assert config_data.IMMIGRATION_NUMBER in immigration_record_table.text, "Immigration record '777' not found in immigration list"
-    assert config_data.IMMIGRATION_ISSUED_BY in immigration_record_table.text, "Immigration record 'Afghanistan' not found in immigration list"
-    assert config_data.IMMIGRATION_ISSUE_DATE in immigration_record_table.text or "01-01-2020" in immigration_record_table.text, "Immigration record '2020-01-01' not found in immigration list"
-    assert config_data.IMMIGRATION_EXPIRY_DATE in immigration_record_table.text or "01-01-2030" in immigration_record_table.text, "Immigration record '2030-01-01' not found in immigration list"
+    assert config.immigration_number in immigration_record_table.text, "Immigration record '777' not found in immigration list"
+    assert config.immigration_issued_by in immigration_record_table.text, "Immigration record 'Afghanistan' not found in immigration list"
+    assert config.immigration_issue_date in immigration_record_table.text or "01-01-2020" in immigration_record_table.text, "Immigration record '2020-01-01' not found in immigration list"
+    assert config.immigration_expiry_date in immigration_record_table.text or "01-01-2030" in immigration_record_table.text, "Immigration record '2030-01-01' not found in immigration list"
