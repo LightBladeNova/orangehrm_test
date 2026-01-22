@@ -7,11 +7,16 @@ import time
 
 class BasePage:
     """Base page object with common helper methods"""
+    MYINFO_LINK = (By.CSS_SELECTOR, "a[href*='/web/index.php/pim/viewMyDetails']")
     
     def __init__(self, driver):
         self.driver = driver
+
+    def click_myinfo(self):
+        """Navigate to the My Info page via the sidebar link"""
+        return self.driver.find_element(*self.MYINFO_LINK).click()
     
-    def wait_for_loader_to_disappear(self, timeout=10):
+    def wait_for_loader_to_disappear(self, timeout=15):
         """Wait for any loader overlays to disappear"""
         loader_locator = (By.CSS_SELECTOR, "div.oxd-form-loader")
         WebDriverWait(self.driver, timeout).until(

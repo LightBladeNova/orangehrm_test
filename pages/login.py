@@ -6,6 +6,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 
 class LoginPage(BasePage):
+    LOCATORS = {
+        "username_field": (By.NAME, "username"),
+        "password_field": (By.NAME, "password"),
+        "login_button": (By.XPATH, "//button[@type='submit']"),
+        "error_message": (By.CSS_SELECTOR, "p.oxd-alert-content-text"),
+    }
+
     def __init__(self, driver):
         super().__init__(driver)
 
@@ -14,7 +21,7 @@ class LoginPage(BasePage):
     
     def fill_username(self, username):
         field = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.NAME, "username")))
+            EC.element_to_be_clickable(self.LOCATORS["username_field"]))
         field.click()
         field.send_keys(Keys.CONTROL, "a")
         field.send_keys(Keys.DELETE)
@@ -22,14 +29,14 @@ class LoginPage(BasePage):
 
     def fill_password(self, password):
         field = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.NAME, "password")))
+            EC.element_to_be_clickable(self.LOCATORS["password_field"]))
         field.click()
         field.send_keys(Keys.CONTROL, "a")
         field.send_keys(Keys.DELETE)
         field.send_keys(password)
 
     def click_login(self):
-        self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
+        self.driver.find_element(*self.LOCATORS["login_button"]).click()
 
     def get_invalid_credentials_error(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "p.oxd-alert-content-text")
+        return self.driver.find_element(*self.LOCATORS["error_message"])

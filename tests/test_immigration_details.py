@@ -12,12 +12,13 @@ def test_add_immigration_details(logged_in_browser):
         immigration_page = Immigration(logged_in_browser)
         immigration_page.click_myinfo()
         immigration_page.click_immigration_tab()
-        time.sleep(3)
     except Exception as exc:
         raise Exception(f"Immigration page failed to load: {exc}") from exc
 
+    immigration_page.wait_for_loader_to_disappear()
     immigration_page.delete_existing_immigration_record()
     immigration_page.wait_for_loader_to_disappear()
+    time.sleep(3)
 
     immigration_page.click_add_immigration_record_button()
     immigration_page.click_save_button_input_error()
@@ -28,6 +29,7 @@ def test_add_immigration_details(logged_in_browser):
     immigration_page.click_afghanistan_option()
     immigration_page.click_save_button_and_verify()
     immigration_page.wait_for_loader_to_disappear()
+    time.sleep(3)
 
     immigration_record_table = immigration_page.immigration_record_table()
     assert config.immigration_number in immigration_record_table.text, "Immigration record '777' not found in immigration list"

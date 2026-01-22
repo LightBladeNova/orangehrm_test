@@ -1,9 +1,12 @@
+import logging
 import time
 from pathlib import Path
 import pytest
 from core.config import config
 from pages.immigration import Immigration
 from utils.files import latest_file, read_text
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.mark.dependency(depends=["personal_details", "contact_details"], name="immigration_attachment", scope="session")
@@ -28,7 +31,7 @@ def test_add_immigration_attachment(logged_in_browser):
     try:
         immigration_page.click_save_button_and_verify()
     except Exception as exc:
-        print(f"Save verification failed (expected if no file): {exc}")
+        logger.warning("Save verification failed (expected if no file): %s", exc)
     immigration_page.wait_for_loader_to_disappear()
 
     download_dir = Path.home() / "Downloads"
@@ -40,4 +43,4 @@ def test_add_immigration_attachment(logged_in_browser):
 
     downloaded_content = read_text(downloaded_file)
     assert config.immigration_attachment_content in downloaded_content, f"Expected content '{config.immigration_attachment_content}' not found in downloaded file"
-    print(f"✅ File download verified: {downloaded_file.name}")
+    logger.info("✅ File download verified: %s", downloaded_file.name)

@@ -13,6 +13,7 @@ def test_add_dependents(logged_in_browser):
     except Exception as exc:
         raise Exception(f"Dependents page failed to load: {exc}") from exc
 
+    dependents_page.wait_for_loader_to_disappear()
     dependents_page.delete_existing_dependents()
 
     dependents_page.click_add_dependent()

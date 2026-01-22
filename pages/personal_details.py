@@ -5,19 +5,21 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 
 class PersonalDetails(BasePage):
+    LOCATORS = {
+        "first_name_field": (By.NAME, "firstName"),
+        "last_name_field": (By.NAME, "lastName"),
+    }
+
     def __init__(self, driver):
         super().__init__(driver)
     
-    def click_myinfo(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "a[href*='/web/index.php/pim/viewMyDetails']").click()
-
     def firstname(self):
         return WebDriverWait(self.driver, 10).until(
-        EC.element_to_be_clickable((By.NAME, "firstName")))
+            EC.element_to_be_clickable(self.LOCATORS["first_name_field"]))
     
     def lastname(self):
         return WebDriverWait(self.driver, 10).until(
-        EC.element_to_be_clickable((By.NAME, "lastName")))
+            EC.element_to_be_clickable(self.LOCATORS["last_name_field"]))
 
     def fill_firstname(self, firstname):
         self.fill_input(self.firstname(), firstname)
