@@ -1,14 +1,12 @@
+from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from utils.helpers import *
 import time
 
-class Immigration:
+class Immigration(BasePage):
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
     
     def click_myinfo(self):
         return self.driver.find_element(By.CSS_SELECTOR, "a[href*='/web/index.php/pim/viewMyDetails']").click()
@@ -22,8 +20,8 @@ class Immigration:
             delete_buttons[0].click()  # Click the first Delete button for Immigration record
             confirm_delete_button = self.driver.find_element(By.CSS_SELECTOR, "button.oxd-button.oxd-button--label-danger")
             confirm_delete_button.click()
-        except Exception as e:
-            print(f"No immigration record found: {e}")
+        except Exception as exc:
+            print(f"No immigration record found: {exc}")
 
     def delete_existing_immigration_attachment(self):
         try:
@@ -31,8 +29,8 @@ class Immigration:
             delete_buttons[1].click()  # Click the second Delete button for Immigration attachment
             confirm_delete_button = self.driver.find_element(By.CSS_SELECTOR, "button.oxd-button.oxd-button--label-danger")
             confirm_delete_button.click()
-        except Exception as e:
-            print(f"No immigration attachment found: {e}")
+        except Exception as exc:
+            print(f"No immigration attachment found: {exc}")
 
     def click_add_immigration_record_button(self):
         add_buttons = self.driver.find_elements(By.CSS_SELECTOR, "button.oxd-button--medium")
@@ -45,19 +43,19 @@ class Immigration:
     def fill_number(self, number):
         number_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH,"//label[contains(text(),'Number')]/../../div[2]/input")))
-        fill_input(self.driver, number_element, number)
+        self.fill_input(number_element, number)
         time.sleep(1)
 
     def fill_issue_date(self, issue_date):
         issue_date_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH,"//label[contains(text(),'Issued Date')]/../../div[2]//input")))
-        fill_input(self.driver, issue_date_element, issue_date)
+        self.fill_input(issue_date_element, issue_date)
         time.sleep(1)
 
     def fill_expiry_date(self, expiry_date):
         expiry_date_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH,"//label[contains(text(),'Expiry Date')]/../../div[2]//input")))
-        fill_input(self.driver, expiry_date_element, expiry_date)
+        self.fill_input(expiry_date_element, expiry_date)
         time.sleep(1)
 
     def click_issued_by_dropdown(self):

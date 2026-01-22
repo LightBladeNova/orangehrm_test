@@ -1,14 +1,12 @@
+from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from utils.helpers import *
 import time
 
-class Dependents:
+class Dependents(BasePage):
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
     
     def click_myinfo(self):
         return self.driver.find_element(By.CSS_SELECTOR, "a[href*='/web/index.php/pim/viewMyDetails']").click()
@@ -25,10 +23,10 @@ class Dependents:
                 delete_button.click()
                 confirm_delete_button = self.driver.find_element(By.CSS_SELECTOR, "button.oxd-button.oxd-button--label-danger")
                 confirm_delete_button.click()
-                wait_for_loader_to_disappear(self.driver)
+                self.wait_for_loader_to_disappear()
                 time.sleep(3)
-        except Exception as e:
-            print(f"No existing dependents found: {e}")
+        except Exception as exc:
+            print(f"No existing dependents found: {exc}")
     
     def click_add_dependent(self):
         return self.driver.find_element(By.CSS_SELECTOR, "button.oxd-button").click()
@@ -49,19 +47,19 @@ class Dependents:
     def fill_name(self, name):
         name_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH,"//label[contains(text(),'Name')]/../../div[2]/input")))
-        fill_input(self.driver, name_element, name)
+        self.fill_input(name_element, name)
         time.sleep(1)
 
     def fill_dob(self, dob):
         dob_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH,"//label[contains(text(),'Date of Birth')]/../../div[2]//input")))
-        fill_input(self.driver, dob_element, dob)
+        self.fill_input(dob_element, dob)
         time.sleep(1)
 
     def fill_relationship(self, relationship):
         relationship_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH,"//label[contains(text(),'Please Specify')]/../../div[2]//input")))
-        fill_input(self.driver, relationship_element, relationship)
+        self.fill_input(relationship_element, relationship)
         time.sleep(1)
 
     def dependents_records(self):

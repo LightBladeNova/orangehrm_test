@@ -1,13 +1,12 @@
-from utils.helpers import fill_input
+from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
 import time
 
-class ContactDetails:
+class ContactDetails(BasePage):
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
     
     def click_myinfo(self):
         return self.driver.find_element(By.CSS_SELECTOR, "a[href*='/web/index.php/pim/viewMyDetails']").click()
@@ -36,21 +35,21 @@ class ContactDetails:
             EC.element_to_be_clickable((By.XPATH,"//label[contains(text(),'Work')]/../../div[2]/input")))
     
     def fill_street1(self, street1):
-        fill_input(self.driver, self.street1(), street1)
+        self.fill_input(self.street1(), street1)
         time.sleep(1)
         
     def fill_city(self, city):
-        fill_input(self.driver, self.city(), city)
+        self.fill_input(self.city(), city)
         time.sleep(1)
 
     def fill_state(self, state):
-        fill_input(self.driver, self.state(), state)
+        self.fill_input(self.state(), state)
         time.sleep(1)
 
     def fill_zip(self, zip):
-        fill_input(self.driver, self.zip(), zip)
+        self.fill_input(self.zip(), zip)
         time.sleep(1)
 
     def fill_workphone(self, workphone):
-        fill_input(self.driver, self.work_phone(), workphone)
+        self.fill_input(self.work_phone(), workphone)
         time.sleep(1)
