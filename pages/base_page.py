@@ -8,40 +8,46 @@ import time
 
 class BasePage:
     """Base page object with common helper methods"""
-    MYINFO_LINK = (By.CSS_SELECTOR, "a[href*='/web/index.php/pim/viewMyDetails']")
+    BASE_LOCATORS = {
+        "myinfo_link": (By.CSS_SELECTOR, "a[href*='/web/index.php/pim/viewMyDetails']"),
+        "loader": (By.CSS_SELECTOR, "div.oxd-form-loader"),
+        "save_button": (By.CSS_SELECTOR, "button[type='submit']"),
+        "input_required_error": (By.CSS_SELECTOR, "span.oxd-input-field-error-message"),
+        "toast_success": (By.XPATH, "//div[contains(@class, 'oxd-toast--success')]"),
+    }
     
     def __init__(self, driver):
         self.driver = driver
 
     def click_myinfo(self):
         """Navigate to the My Info page via the sidebar link"""
-        self.driver.find_element(*self.MYINFO_LINK).click()
+        self.driver.find_element(*self.BASE_LOCATORS["myinfo_link"]).click()
     
     def wait_for_loader_to_disappear(self, timeout: int = 15):
         """Wait for any loader overlays to disappear"""
-        loader_locator = (By.CSS_SELECTOR, "div.oxd-form-loader")
+        loader_locator = self.BASE_LOCATORS["loader"]
         WebDriverWait(self.driver, timeout).until(
             EC.invisibility_of_element_located(loader_locator)
         )
 
     def click_save_button_input_error(self, timeout: int = 6):
         """Click save and verify input error is displayed"""
-        save_button: WebElement = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+        save_button: WebElement = self.driver.find_element(*self.BASE_LOCATORS["save_button"])
         save_button.click()
         time.sleep(2)
-        input_required_error: WebElement = self.driver.find_element(By.CSS_SELECTOR, "span.oxd-input-field-error-message")
+        input_required_error: WebElement = self.driver.find_element(*self.BASE_LOCATORS["input_required_error"])
         assert input_required_error.text == "Required", "Input required error message not displayed"
 
     def click_save_button_and_verify(self, timeout: int = 5):
         """Click save and verify success message"""
-        save_button: WebElement = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+        save_button: WebElement = self.driver.find_element(*self.BASE_LOCATORS["save_button"])
         save_button.click()
         time.sleep(2)
         # Verify the changes were saved by checking for success message
         success: bool
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'oxd-toast--success')]"))
+                EC.presence_of_element_located(self.BASE_LOCATORS["toast_success"])
             )
             success = True
         except Exception:
