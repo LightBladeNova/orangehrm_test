@@ -2,7 +2,6 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 class ContactDetails(BasePage):
     LOCATORS = {
@@ -42,20 +41,15 @@ class ContactDetails(BasePage):
     
     def fill_street1(self, street1: str):
         self.fill_input(self.street1(), street1)
-        time.sleep(1)
         
     def fill_city(self, city: str):
         self.fill_input(self.city(), city)
-        time.sleep(1)
 
     def fill_state(self, state: str):
         self.fill_input(self.state(), state)
-        time.sleep(1)
 
     def fill_zip(self, zip: str):
         self.fill_input(self.zip(), zip)
-        time.sleep(1)
 
     def fill_workphone(self, workphone: str):
         self.fill_input(self.work_phone(), workphone)
-        time.sleep(1)

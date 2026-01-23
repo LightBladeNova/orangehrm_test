@@ -59,19 +59,16 @@ class Immigration(BasePage):
         number_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["number_field"]))
         self.fill_input(number_element, number)
-        time.sleep(1)
 
     def fill_issue_date(self, issue_date: str):
         issue_date_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["issue_date_field"]))
         self.fill_input(issue_date_element, issue_date)
-        time.sleep(1)
 
     def fill_expiry_date(self, expiry_date: str):
         expiry_date_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["expiry_date_field"]))
         self.fill_input(expiry_date_element, expiry_date)
-        time.sleep(1)
 
     def click_issued_by_dropdown(self):
         return self.driver.find_element(*self.LOCATORS["issued_by_dropdown"]).click()
