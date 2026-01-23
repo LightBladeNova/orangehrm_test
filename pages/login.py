@@ -19,7 +19,7 @@ class LoginPage(BasePage):
     def navigate_to_login_page(self):
         self.driver.get(config.base_url)
     
-    def fill_username(self, username):
+    def fill_username(self, username: str):
         field = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["username_field"]))
         field.click()
@@ -27,7 +27,7 @@ class LoginPage(BasePage):
         field.send_keys(Keys.DELETE)
         field.send_keys(username)
 
-    def fill_password(self, password):
+    def fill_password(self, password: str):
         field = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["password_field"]))
         field.click()

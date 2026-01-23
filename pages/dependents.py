@@ -60,19 +60,19 @@ class Dependents(BasePage):
         return WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["work_phone_field"]))
     
-    def fill_name(self, name):
+    def fill_name(self, name: str):
         name_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["name_field"]))
         self.fill_input(name_element, name)
         time.sleep(1)
 
-    def fill_dob(self, dob):
+    def fill_dob(self, dob: str):
         dob_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["dob_field"]))
         self.fill_input(dob_element, dob)
         time.sleep(1)
 
-    def fill_relationship(self, relationship):
+    def fill_relationship(self, relationship: str):
         relationship_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["relationship_field"]))
         self.fill_input(relationship_element, relationship)

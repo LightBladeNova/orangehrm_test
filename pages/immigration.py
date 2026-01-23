@@ -55,19 +55,19 @@ class Immigration(BasePage):
         add_buttons = self.driver.find_elements(*self.LOCATORS["add_button"])
         add_buttons[1].click()  # Click the second Add button
 
-    def fill_number(self, number):
+    def fill_number(self, number: str):
         number_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["number_field"]))
         self.fill_input(number_element, number)
         time.sleep(1)
 
-    def fill_issue_date(self, issue_date):
+    def fill_issue_date(self, issue_date: str):
         issue_date_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["issue_date_field"]))
         self.fill_input(issue_date_element, issue_date)
         time.sleep(1)
 
-    def fill_expiry_date(self, expiry_date):
+    def fill_expiry_date(self, expiry_date: str):
         expiry_date_element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["expiry_date_field"]))
         self.fill_input(expiry_date_element, expiry_date)
@@ -82,7 +82,7 @@ class Immigration(BasePage):
     def immigration_record_table(self):
         return self.driver.find_element(*self.LOCATORS["immigration_table"])
 
-    def upload_attachment_file(self, file_path):
+    def upload_attachment_file(self, file_path: str):
         try:
             file_input = self.driver.find_element(*self.LOCATORS["file_input"])
             file_input.send_keys(file_path)

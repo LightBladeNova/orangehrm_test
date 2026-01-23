@@ -21,11 +21,11 @@ class PersonalDetails(BasePage):
         return WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["last_name_field"]))
 
-    def fill_firstname(self, firstname):
+    def fill_firstname(self, firstname: str):
         self.fill_input(self.firstname(), firstname)
         time.sleep(1)
     
-    def fill_lastname(self, lastname):
+    def fill_lastname(self, lastname: str):
         self.fill_input(self.lastname(), lastname)
         time.sleep(1)
     

@@ -40,22 +40,22 @@ class ContactDetails(BasePage):
         return WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOCATORS["work_phone_field"]))
     
-    def fill_street1(self, street1):
+    def fill_street1(self, street1: str):
         self.fill_input(self.street1(), street1)
         time.sleep(1)
         
-    def fill_city(self, city):
+    def fill_city(self, city: str):
         self.fill_input(self.city(), city)
         time.sleep(1)
 
-    def fill_state(self, state):
+    def fill_state(self, state: str):
         self.fill_input(self.state(), state)
         time.sleep(1)
 
-    def fill_zip(self, zip):
+    def fill_zip(self, zip: str):
         self.fill_input(self.zip(), zip)
         time.sleep(1)
 
-    def fill_workphone(self, workphone):
+    def fill_workphone(self, workphone: str):
         self.fill_input(self.work_phone(), workphone)
         time.sleep(1)

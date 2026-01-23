@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 import time
 
 
@@ -14,29 +15,30 @@ class BasePage:
 
     def click_myinfo(self):
         """Navigate to the My Info page via the sidebar link"""
-        return self.driver.find_element(*self.MYINFO_LINK).click()
+        self.driver.find_element(*self.MYINFO_LINK).click()
     
-    def wait_for_loader_to_disappear(self, timeout=15):
+    def wait_for_loader_to_disappear(self, timeout: int = 15):
         """Wait for any loader overlays to disappear"""
         loader_locator = (By.CSS_SELECTOR, "div.oxd-form-loader")
         WebDriverWait(self.driver, timeout).until(
             EC.invisibility_of_element_located(loader_locator)
         )
 
-    def click_save_button_input_error(self, timeout=6):
+    def click_save_button_input_error(self, timeout: int = 6):
         """Click save and verify input error is displayed"""
-        save_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+        save_button: WebElement = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         save_button.click()
         time.sleep(2)
-        input_required_error = self.driver.find_element(By.CSS_SELECTOR, "span.oxd-input-field-error-message")
+        input_required_error: WebElement = self.driver.find_element(By.CSS_SELECTOR, "span.oxd-input-field-error-message")
         assert input_required_error.text == "Required", "Input required error message not displayed"
 
-    def click_save_button_and_verify(self, timeout=5):
+    def click_save_button_and_verify(self, timeout: int = 5):
         """Click save and verify success message"""
-        save_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+        save_button: WebElement = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         save_button.click()
         time.sleep(2)
         # Verify the changes were saved by checking for success message
+        success: bool
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'oxd-toast--success')]"))
@@ -46,7 +48,7 @@ class BasePage:
             success = False
         assert success, "Failed to save details - success message not found"
 
-    def fill_input(self, webelement, value, timeout=10, attempts=3):
+    def fill_input(self, webelement: WebElement, value: str, timeout: int = 10, attempts: int = 3) -> bool:
         """Clears the field robustly (Ctrl+A+Delete, JS fallback) then sends value.
         Returns True on success, False on failure after retries.
         """

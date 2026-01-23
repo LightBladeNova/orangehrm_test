@@ -1,6 +1,7 @@
 """
 Validation script for test_immigration_document.txt
 Confirms the file exists with expected content, creates it if missing.
+Run this script with "python3 tools/validate_test_file.py"
 """
 import logging
 from pathlib import Path
